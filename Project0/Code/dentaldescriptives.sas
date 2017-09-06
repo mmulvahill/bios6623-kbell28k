@@ -40,21 +40,6 @@ VAR age sites attachbase attachyear1 pdbase pdyear1 pddiff attachdiff;
 run;
 
 
-proc gplot data=dentalclean;
- title ‘Scatter Plot of Treatment Group’;
-plot attachdiff* age = treat;
- run;
-quit;
-
-
- ’Linear Regression of Height and Weight’;
-title2 ’(with 95% Confidence Limits)’;
-symbol ci=red cv=blue co=gray value=dot
- interpol=rlclm95 ;
-proc gplot data=sashelp.class;
- plot height*weight / regeqn;
-run; quit;
-
 /*Correlation matrix for dental variables*/
 proc template;
       edit Base.Corr.StackedMatrix;
