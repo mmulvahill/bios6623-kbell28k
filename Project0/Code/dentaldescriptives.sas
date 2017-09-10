@@ -1,3 +1,10 @@
+PROC IMPORT OUT= WORK.dental 
+            DATAFILE= "C:\Users\Kayla\Desktop\dental.csv" 
+            DBMS=CSV REPLACE;
+     GETNAMES=YES;
+     DATAROW=2; 
+RUN;
+
 proc contents data = work.dental;
 run;
 
@@ -8,25 +15,25 @@ set work.dental;
 attachyear1 = input(attach1year, best15.);
 pdyear1 = input(pd1year, best15.);
 /*Re-coding treatment group for clarification*/
-IF trtgroup = 1 THEN treat = "PLACEBO";
-IF trtgroup = 2 THEN treat = "CONTROL";
-IF trtgroup = 3 THEN treat = "LOW";
-IF trtgroup = 4 THEN treat = "MEDIUM";
-IF trtgroup = 5 THEN treat = "HIGH";
+IF trtgroup = 1 THEN treat = 2;
+IF trtgroup = 2 THEN treat = 1;
+IF trtgroup = 3 THEN treat = 3;
+IF trtgroup = 4 THEN treat = 4;
+IF trtgroup = 5 THEN treat = 5;
 /*Re-coding race for clarification*/
 IF race = 1 THEN racer = "Native American";
 IF race = 2 THEN racer = "African-American";
 IF race = 4 THEN racer = "Asian";
 IF race = 5 THEN racer = "White";
 /*Creating a variable for % difference with pd and attach*/
-pddiff = ((pdyear1-pdbase)/pdyear1)*100;
-attachdiff = ((attachyear1-attachbase)/attachyear1)*100;
+pddiff = ((pdyear1-pdbase)/pdyear1);
+attachdiff = ((attachyear1-attachbase)/attachyear1);
 run;
 
 /*Complete clean dental dataset*/
 data dentalclean;
 set dental;
-keep id sex racer age smoker sites attachbase attachyear1
+keep id race sex racer age smoker sites attachbase attachyear1
 pdbase pdyear1 treat pddiff attachdiff;
 run;
 
@@ -39,7 +46,10 @@ proc means data= dentalclean;
 VAR age sites attachbase attachyear1 pdbase pdyear1 pddiff attachdiff;
 run;
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 /*Correlation matrix for dental variables*/
 proc template;
       edit Base.Corr.StackedMatrix;
@@ -69,3 +79,33 @@ proc template;
    proc template;
       delete Base.Corr.StackedMatrix;
    run;
+
+PROC REG DATA=dentalclean;
+	model attachdiff=age;
+	OUTPUT out=output p=pred lcl=lcl ucl=ucl lclm=lclm uclm=uclm;
+	RUN;
+
+PROC REG DATA=dentalclean;
+	model attachdiff=attachbase;
+	OUTPUT out=output p=pred lcl=lcl ucl=ucl lclm=lclm uclm=uclm;
+	RUN;
+
+PROC REG DATA=dentalclean;
+	model attachdiff=sex;
+	OUTPUT out=output p=pred lcl=lcl ucl=ucl lclm=lclm uclm=uclm;
+	RUN;
+
+PROC REG DATA=dentalclean;
+	model attachdiff=smoker;
+	OUTPUT out=output p=pred lcl=lcl ucl=ucl lclm=lclm uclm=uclm;
+	RUN;
+
+PROC REG DATA=dentalclean;
+	model attachdiff=race;
+	OUTPUT out=output p=pred lcl=lcl ucl=ucl lclm=lclm uclm=uclm;
+	RUN;
+
+PROC REG DATA=dentalclean;
+	model attachdiff=treat;
+	OUTPUT out=output p=pred lcl=lcl ucl=ucl lclm=lclm uclm=uclm;
+	RUN;
