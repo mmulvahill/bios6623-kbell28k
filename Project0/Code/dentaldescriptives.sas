@@ -23,7 +23,7 @@ IF trtgroup = 5 THEN treat = 5;
 IF TRTGROUP = 1 THEN PLACEBO = 1; ELSE PLACEBO = 0;
 IF TRTGROUP = 2 THEN CONTROL = 1; ELSE CONTROL = 0;
 IF TRTGROUP = 3 THEN LOW = 1; ELSE LOW = 0;
-IF TRGROUP = 4 THEN MEDIUM = 1; ELSE MEDIUM = 0;
+IF TRTGROUP = 4 THEN MEDIUM = 1; ELSE MEDIUM = 0;
 IF TRTGROUP = 5 THEN HIGH = 1; ELSE HIGH = 0;
 
 /*Re-coding race for clarification*/
@@ -39,8 +39,7 @@ run;
 /*Complete clean dental dataset*/
 data dentalclean;
 set dental;
-keep id race sex racer age smoker sites attachbase attachyear1
-pdbase pdyear1 treat pddiff attachdiff;
+drop race id sites smoker attach1year pd1year;
 run;
 
 /*Identifying missing data*/

@@ -84,11 +84,16 @@ PROC REG DATA=dentalclean;
 	RUN;
 
 /*Final model for PDDIFF*/
-PROC REG DATA = DENTALCLEAN;
-model pddiff = sex placebo low medium high pdbase;
+PROC REG DATA = WORK.dentalclean;
+model PDDIFF = PLACEBO LOW MEDIUM HIGH PDBASE / clb;
 run;
 
-/*Final model for attachdiff*/
+/*Final model for ATTACHDIFFf*/
 PROC REG DATA = DENTALCLEAN;
-MODEL ATTACHDIFF = PLACEBO LOW MEDIUM HIGH ATTACHBASE;
+MODEL ATTACHDIFF = SEX PLACEBO LOW MEDIUM HIGH ATTACHBASE / clb;
+RUN;
+
+/*Final model for ATTACHDIFF without SEX*/
+PROC REG DATA = DENTALCLEAN;
+MODEL ATTACHDIFF = PLACEBO LOW MEDIUM HIGH ATTACHBASE / clb;
 RUN;
