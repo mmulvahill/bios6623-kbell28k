@@ -20,6 +20,12 @@ IF trtgroup = 2 THEN treat = 1;
 IF trtgroup = 3 THEN treat = 3;
 IF trtgroup = 4 THEN treat = 4;
 IF trtgroup = 5 THEN treat = 5;
+IF TRTGROUP = 1 THEN PLACEBO = 1; ELSE PLACEBO = 0;
+IF TRTGROUP = 2 THEN CONTROL = 1; ELSE CONTROL = 0;
+IF TRTGROUP = 3 THEN LOW = 1; ELSE LOW = 0;
+IF TRGROUP = 4 THEN MEDIUM = 1; ELSE MEDIUM = 0;
+IF TRTGROUP = 5 THEN HIGH = 1; ELSE HIGH = 0;
+
 /*Re-coding race for clarification*/
 IF race = 1 THEN racer = "Native American";
 IF race = 2 THEN racer = "African-American";
@@ -45,6 +51,10 @@ run;
 proc means data= dentalclean;
 VAR age sites attachbase attachyear1 pdbase pdyear1 pddiff attachdiff;
 run;
+
+PROC FREQ DATA = DENTALCLEAN;
+TABLES SEX RACE TRTGROUP;
+RUN;
 
 <<<<<<< Updated upstream
 
@@ -80,32 +90,3 @@ proc template;
       delete Base.Corr.StackedMatrix;
    run;
 
-PROC REG DATA=dentalclean;
-	model attachdiff=age;
-	OUTPUT out=output p=pred lcl=lcl ucl=ucl lclm=lclm uclm=uclm;
-	RUN;
-
-PROC REG DATA=dentalclean;
-	model attachdiff=attachbase;
-	OUTPUT out=output p=pred lcl=lcl ucl=ucl lclm=lclm uclm=uclm;
-	RUN;
-
-PROC REG DATA=dentalclean;
-	model attachdiff=sex;
-	OUTPUT out=output p=pred lcl=lcl ucl=ucl lclm=lclm uclm=uclm;
-	RUN;
-
-PROC REG DATA=dentalclean;
-	model attachdiff=smoker;
-	OUTPUT out=output p=pred lcl=lcl ucl=ucl lclm=lclm uclm=uclm;
-	RUN;
-
-PROC REG DATA=dentalclean;
-	model attachdiff=race;
-	OUTPUT out=output p=pred lcl=lcl ucl=ucl lclm=lclm uclm=uclm;
-	RUN;
-
-PROC REG DATA=dentalclean;
-	model attachdiff=treat;
-	OUTPUT out=output p=pred lcl=lcl ucl=ucl lclm=lclm uclm=uclm;
-	RUN;

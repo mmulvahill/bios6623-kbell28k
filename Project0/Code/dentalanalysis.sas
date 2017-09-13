@@ -1,3 +1,17 @@
+/*Checking for violations in assumptions of linear regression*/
+Title 'Plot of PDDIFF by PDBASE';
+	PROC gplot DATA=dentalclean;
+	PLOT pddiff*pdbase ;
+	SYMBOL1 interpol=rl value=dot;
+	RUN;
+
+Title 'Plot of ATTACHDIFF by ATTACHBASE';
+	PROC gplot DATA=dentalclean;
+	PLOT attachdiff*attachbase ;
+	SYMBOL1 interpol=rl value=dot;
+	RUN;
+
+/*Independent Associations for attachment loss difference against covariates*/
 PROC REG DATA=dentalclean;
 	model attachdiff=age;
 	OUTPUT out=output p=pred lcl=lcl ucl=ucl lclm=lclm uclm=uclm;
@@ -33,25 +47,7 @@ PROC REG DATA=dentalclean;
 	OUTPUT out=output p=pred lcl=lcl ucl=ucl lclm=lclm uclm=uclm;
 	RUN;
 
-Title 'Print regression predicts and CIs';
-	PROC PRINT DATA=dentalclean;
-	VAR age race treat pdbase attachbase smoker sex;
-	FORMAT pred lcl ucl lclm uclm f5.3;
-	RUN;
-
-Title 'Plot of ATTACHDIFF by TREAT';
-	PROC gplot DATA=dentalclean;
-	PLOT attachdiff*treat ;
-	SYMBOL1 interpol=rl value=dot;
-	RUN;
-
-Title 'Plot of ATTACHDIFF by ATTACHBASE';
-	PROC gplot DATA=dentalclean;
-	PLOT attachdiff*attachbase ;
-	SYMBOL1 interpol=rl value=dot;
-	RUN;
-
-/*Models for PD*/
+/*Independent Associations for pocket depth difference against covariates*/
 PROC REG DATA=dentalclean;
 	model pddiff=pdbase;
 	OUTPUT out=output p=pred lcl=lcl ucl=ucl lclm=lclm uclm=uclm;
@@ -86,3 +82,13 @@ PROC REG DATA=dentalclean;
 	model pddiff=attachbase;
 	OUTPUT out=output p=pred lcl=lcl ucl=ucl lclm=lclm uclm=uclm;
 	RUN;
+
+/*Final model for PDDIFF*/
+PROC REG DATA = DENTALCLEAN;
+model pddiff = sex placebo low medium high pdbase;
+run;
+
+/*Final model for attachdiff*/
+PROC REG DATA = DENTALCLEAN;
+MODEL ATTACHDIFF = PLACEBO LOW MEDIUM HIGH ATTACHBASE;
+RUN;
