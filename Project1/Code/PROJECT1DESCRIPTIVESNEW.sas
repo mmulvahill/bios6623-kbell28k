@@ -1,3 +1,10 @@
+/*********Header*******************************************************************
+**** This program contains part 2 of code for Project 1 \: HAART Data Analysis*****
+**** Date: October 9, 2017*********************************************************
+**** SAS Edition 9.4***************************************************************
+**** Purpose: to perform descriptives on the data set for analysis*****************
+**** Owner: Kayla Bell*************************************************************/
+
 /*Looking at patterns for missing data in the final dataset*/
 PROC MI DATA = WORK.HIVCLEAN;
 RUN;

@@ -1,3 +1,10 @@
+/*********Header*******************************************************************
+**** This program contains part 1 of code for Project 1 \: HAART Data Analysis*****
+**** Date: October 9, 2017*********************************************************
+**** SAS Edition 9.4***************************************************************
+**** Purpose: to analyze the data**************************************************
+**** Owner: Kayla Bell*************************************************************/
+
 /*Viewing outcome distributions*/
 PROC UNIVARIATE DATA = WORK.HIVCLEAN PLOTS;
 VAR DMENTAL DPHYSICAL DLEU DVLOAD;

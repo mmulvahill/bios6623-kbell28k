@@ -1,3 +1,10 @@
+/*********Header*******************************************************************
+**** This program contains part 1 of code for Project 1 \: HAART Data Analysis*****
+**** Date: October 9, 2017*********************************************************
+**** SAS Edition 9.4***************************************************************
+**** Purpose: to clean and modify the data set for analysis************************
+**** Owner: Kayla Bell*************************************************************/
+
 /*Importing the data*/
 PROC IMPORT OUT= WORK.hiv 
             DATAFILE= "C:\Users\Kayla\Desktop\hiv_6623_final.csv" 
