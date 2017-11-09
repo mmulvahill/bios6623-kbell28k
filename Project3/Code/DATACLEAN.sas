@@ -72,3 +72,33 @@ RUN;
 PROC FREQ DATA = P3.P3DATA;
 TABLES CDR DIAG SEX SOCIO;
 RUN;
+
+/*CORRELATION MATRIX FOR VARIABLE RELATIONSHIPS*/
+PROC TEMPLATE;
+      EDIT Base.Corr.StackedMatrix;
+         COLUMN (RowName RowLabel) (Matrix) * (Matrix2);
+         EDIT matrix;
+         CELLSTYLE _val_  = -1.00 as {backgroundcolor=CXEEEEEE},
+                   _val_ <= -0.75 as {backgroundcolor=red},
+                   _val_ <= -0.50 as {backgroundcolor=green},
+                   _val_ <= -0.25 as {backgroundcolor=cyan},
+                   _val_ <=  0.25 as {backgroundcolor=white},
+                   _val_ <=  0.50 as {backgroundcolor=cyan},
+                   _val_ <=  0.75 as {backgroundcolor=green},
+                   _val_ <   1.00 as {backgroundcolor=red},
+                   _val_  =  1.00 as {backgroundcolor=CXEEEEEE};
+         END;
+         END;
+      RUN;
+   
+   ODS HTML BODY='corr.html' style=statistical;
+   ODS LISTING CLOSE;
+   PROC CORR DATA=P3.P3DATA NOPROB;
+      ODS SELECT PearsonCorr;
+   run;
+   ODS LISTING;
+   ODS HTML CLOSE;
+   
+   PROC TEMPLATE;
+   DELETE Base.Corr.StackedMatrix;
+   RUN;
